@@ -1,0 +1,15 @@
+:root {
+  --main-bg-color: #EAEBED;
+  --borders-and-shadows: #87E1C7;
+  --btn-color: #339476;
+  --hover-shadow-color: #21605D;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  background-color: var(--main-bg-color);
+  text-decoration: none;
+}
