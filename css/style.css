@@ -13,3 +13,15 @@
   background-color: var(--main-bg-color);
   text-decoration: none;
 }
+
+.main{  
+  display: flex;
+}
+
+.section{
+  width: 70%;
+}
+
+.aside{
+  width: 30%;
+}
