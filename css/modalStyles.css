@@ -1,0 +1,98 @@
+.modal--container {
+  z-index: 5;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.363);
+  display: flex;
+}
+
+.modal--container::before {
+  content: "X";
+  position: absolute;
+  margin: 10px 10px 0 0;
+  top: 0;
+  right: 0;
+  opacity: 0.5;
+  font-size: 5rem;
+}
+
+.content--modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 320px;
+  min-width: 320px;
+  height: 80vh;
+  max-height: 350px;
+  margin: auto;
+  background-color: var(--main-bg-color);
+  border-radius: 15px;
+  padding: 30px;
+}
+
+h3 {
+  margin: 10px 0;
+}
+.title {
+  border-bottom: 1px solid gray;
+}
+
+.button {
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.cancelar {
+  background-color: white;
+  color: black;
+  border: 2px solid #f73d42;
+}
+
+.cancelar:hover {
+  background-color: #d13438;
+  color: white;
+}
+
+.guardar {
+  background-color: white;
+  color: black;
+  border: 2px solid var(--btn-color);
+}
+
+.guardar:hover {
+  background-color: var(--btn-color);
+  color: white;
+}
+
+.spinner-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin: 10px;
+}
+
+#quantity {
+  height: 35px;
+  width: 50px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+}
+
+.config-btn-container {
+  margin: 10px 0;
+}
