@@ -14,14 +14,53 @@
   text-decoration: none;
 }
 
-.main{  
+body {
   display: flex;
-  width: 100%;
-  height: auto;
-  box-sizing: border-box;
+  justify-content: center;
 }
 
-.boton{
+main {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100vh;
+  justify-content: center;
+}
+
+/* Cambios Milton */
+.game-container {
+  display: flex;
+  min-width: 320px;
+  max-width: 512px;
+  /* border: 1px solid red; */
+  align-items: center;
+}
+
+.btns-container {
+  display: flex;
+}
+
+.debug {
+  flex-wrap: wrap;
+}
+
+aside {
+  display: flex;
+  min-width: 320px;
+  max-width: 512px;
+  align-items: center;
+}
+
+.game-container section {
+  /* border: 1px solid var(--hover-shadow-color); */
+}
+
+aside section {
+  /* border: 1px solid var(--hover-shadow-color); */
+}
+
+/* Fin cambios Milton */
+
+.boton {
   flex-grow: 8;
   border-radius: 5px;
   margin: 2px;
@@ -47,7 +86,7 @@ button {
   width: 140px;
   box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
   transform: translateY(-0.25em);
-  color:#102e2c
+  color: #102e2c
 }
 
 /*
@@ -55,7 +94,7 @@ Estilo de botones, tomado desde
 https://codepen.io/giana/pen/BZaGyP
 */
 
-.section{
+.section {
   width: 70%;
   align-items: center;
   margin: 10px;
@@ -64,7 +103,7 @@ https://codepen.io/giana/pen/BZaGyP
   box-sizing: border-box;
 }
 
-.aside{
+.aside {
   width: 30%;
   box-sizing: border-box;
   text-align: justify;
@@ -73,11 +112,12 @@ https://codepen.io/giana/pen/BZaGyP
   padding: 20px;
 }
 
-@media screen and (max-width:600px){
-  .section{
-    width:100%;
+@media screen and (max-width:600px) {
+  .section {
+    width: 100%;
   }
-  .aside{
-    width:100%;
+
+  .aside {
+    width: 100%;
   }
 }
