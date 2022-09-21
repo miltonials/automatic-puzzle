@@ -31,8 +31,8 @@ main {
   display: flex;
   min-width: 320px;
   max-width: 512px;
-  /* border: 1px solid red; */
   align-items: center;
+  margin-right: 30px;
 }
 
 .btns-container {
@@ -43,6 +43,11 @@ main {
   flex-wrap: wrap;
 }
 
+.puzzle {
+  text-align: center;
+  margin: 15px 0;
+}
+
 aside {
   display: flex;
   min-width: 320px;
@@ -50,12 +55,9 @@ aside {
   align-items: center;
 }
 
-.game-container section {
-  /* border: 1px solid var(--hover-shadow-color); */
-}
-
-aside section {
-  /* border: 1px solid var(--hover-shadow-color); */
+aside h1 {
+  text-align: center;
+  font-size: 25px;
 }
 
 /* Fin cambios Milton */
@@ -112,12 +114,8 @@ https://codepen.io/giana/pen/BZaGyP
   padding: 20px;
 }
 
-@media screen and (max-width:600px) {
-  .section {
-    width: 100%;
-  }
-
-  .aside {
-    width: 100%;
+@media screen and (max-width:973px) {
+  .game-container {
+    margin-right: 0px;
   }
 }
