@@ -49,7 +49,7 @@ const printModal = (content) => {
   };
 
   modalContainerEl.addEventListener("click", (e) => {
-    if (e.target === modalContainerEl) {
+    if (e.target === modalContainerEl || e.target.classList.contains("cancelar")) {
       removeModal();
     }
   });

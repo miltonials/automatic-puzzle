@@ -44,6 +44,8 @@ main {
 }
 
 .puzzle {
+  display: flex;
+  justify-content: center;
   text-align: center;
   margin: 15px 0;
 }
@@ -79,7 +81,6 @@ button {
   font-weight: bolder;
 }
 
-.boton:hover,
 .boton:focus {
   flex-grow: 4;
   border-radius: 5px;
@@ -88,7 +89,7 @@ button {
   width: 140px;
   box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
   transform: translateY(-0.25em);
-  color: #102e2c
+  border: none
 }
 
 /*
@@ -118,4 +119,37 @@ https://codepen.io/giana/pen/BZaGyP
   .game-container {
     margin-right: 0px;
   }
+}
+
+
+
+/*  */
+.algoritmoActual {
+  background-color: var(--hover-shadow-color);
+}
+/* ESTILOS TABLERO */
+.tablero {
+  margin: 25px 0;
+  display: flex;
+  text-align-last: center;
+}
+
+.filaTablero {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.cuadroTablero {
+  width: 62px;
+  height: 62px;
+  margin: 3px;
+  border: solid 2px var(--hover-shadow-color);
+  border-radius: 5px;
+}
+
+.letraTablero {
+  font-size: 38px;
+  background-color: transparent;
+  font-weight: 650;
 }

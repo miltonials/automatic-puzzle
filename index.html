@@ -18,11 +18,30 @@
         <section class="game-container">
             <section>
                 <section class="btns-container">
-                    <button name="btn_backtracking" class="boton" id="btn_back">Backtracking</button>
-                    <button name="btn_estrella" class="boton" id="btn_estrella">A*</button>
+                    <button name="btn_backtracking" class="boton" id="btn_backtracking"
+                        onclick="cambioAlgoritmo(true)">Backtracking</button>
+                    <button name="btn_estrella" class="boton algoritmoActual" id="btn_estrella"
+                        onclick="cambioAlgoritmo(false)">A*</button>
                 </section>
-                <section class="puzzle">
-                    <img class="imagen" src="https://miro.medium.com/max/281/1*IQ4oYMH3SCAriifZMdZA9w.png">
+                <section class="puzzle" id="puzzle">
+                    <div class="board-container" id="board-container">
+                        <div class="filaTablero">
+                            <div id="cuadro_0_0" class="cuadroTablero">
+                                <p class="letraTablero">0</p>
+                            </div>
+                            <div id="cuadro_0_1" class="cuadroTablero">
+                                <p class="letraTablero">1</p>
+                            </div>
+                        </div>
+                        <div class="filaTablero">
+                            <div id="cuadro_1_0" class="cuadroTablero">
+                                <p class="letraTablero">2</p>
+                            </div>
+                            <div id="cuadro_1_1" class="cuadroTablero">
+                                <p class="letraTablero">3</p>
+                            </div>
+                        </div>
+                    </div>
                 </section>
                 <section class="btns-container debug">
                     <button name="btn_step_u" class="boton" id="btn_step_u">Step_out</button>
@@ -62,6 +81,7 @@
     </main>
     <script src="./js/modals/modalsController.js"></script>
     <script src="./js/modals/myModals.js"></script>
+    <script src="./js/main.js"></script>
 </body>
 
 </html>

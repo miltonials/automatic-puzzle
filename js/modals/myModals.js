@@ -16,10 +16,12 @@ config_btn.addEventListener("click", () => {
     <label for="automatico">Automático</label>
     </input>
   </div>
+  </form>
   <div class="config-btn-container">
-    <button class="button cancelar">Cancelar</button>
-    <button class="button guardar">Guardar</button>
+    <button id = "btn-cancelar" class="button cancelar">Cancelar</button>
+    <button class="button guardar" onClick="cambiarDimensionesTablero()">Guardar</button>
   </div>
-</form>
   `);
 }); 
+
+
