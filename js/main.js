@@ -12,12 +12,12 @@ function cambioAlgoritmo(backtraking) {
   if (backtraking) {
     btn_estrella.classList.remove("algoritmoActual");
     btn_backtracking.classList.add("algoritmoActual");
-    backtrakingEnUso = True;
+    backtrakingEnUso = true;
   }
   else {
     btn_backtracking.classList.remove("algoritmoActual");
     btn_estrella.classList.add("algoritmoActual");
-    backtrakingEnUso = False;
+    backtrakingEnUso = false;
   }
 }
 
@@ -26,12 +26,25 @@ function cambioAlgoritmo(backtraking) {
  */
 function cambiarDimensionesTablero() {
   let dimensiones = document.getElementById("quantity").value;
-  if (dimensiones >= 2 && dimensiones <= 5) {
-    dimensiones = parseInt(dimensiones);
-    crearTablero(dimensiones);
-  }
-  else {
-    alert("Las dimensiones del tablero deben estar entre 2 y 5");
+
+  let radios = document.getElementsByName("tipo-tablero");
+  let selected = Array.from(radios).find(radio => radio.checked);
+  console.log(selected.value);
+
+  if (selected) {
+    if (selected.value == "manual") {
+      selected = false
+    }
+    else {
+      selected = true
+    }
+    if (dimensiones >= 2 && dimensiones <= 5) {
+      dimensiones = parseInt(dimensiones);
+      crearTablero(dimensiones, selected);
+    }
+    else {
+      alert("Las dimensiones del tablero deben estar entre 2 y 5");
+    }
   }
 }
 
@@ -39,7 +52,7 @@ function cambiarDimensionesTablero() {
  * Función que permite crear el tablero mxm. Donde m = dimensiones y pertence a {2, 3, 4, 5}
  * @param {int} dimensiones 
  */
-function crearTablero(dimensiones) {
+function crearTablero(dimensiones, automatico) {
   let tablero_container = document.getElementById("puzzle");
   let tableroHTML = "";
   let numeros = [];
@@ -49,7 +62,14 @@ function crearTablero(dimensiones) {
   for (let i = 0; i < dimensiones; i++) {
     tableroHTML += "<div class='filaTablero'>";
     for (let j = 0; j < dimensiones; j++) {
-      let numero = obtenerRandom(dimensiones, numeros)
+      let numero = 0;
+      if (automatico) {
+        numero = obtenerRandom(dimensiones, numeros)
+      }
+      else {
+        numero = prompt("Ingresa un número")
+      }
+
       numeros.push(numero);
 
       let letra = `<p class="letraTablero">` + numero + `</p>`
