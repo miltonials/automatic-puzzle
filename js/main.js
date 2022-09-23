@@ -1,4 +1,6 @@
 let backtrakingEnUso = false
+let matrizBacktraking = []
+let dimensionesMatriz = 0
 
 /**
  * Función que permite cambiar el color del botón del algoritmo seleccionado
@@ -53,6 +55,7 @@ function cambiarDimensionesTablero() {
  * @param {int} dimensiones 
  */
 function crearTablero(dimensiones, automatico) {
+  dimensionesMatriz = dimensiones
   let tablero_container = document.getElementById("puzzle");
   let tableroHTML = "";
   let numeros = [];
@@ -60,6 +63,7 @@ function crearTablero(dimensiones, automatico) {
   document.getElementById("board-container").remove()
 
   for (let i = 0; i < dimensiones; i++) {
+    vector = []
     tableroHTML += "<div class='filaTablero'>";
     for (let j = 0; j < dimensiones; j++) {
       let numero = 0;
@@ -67,14 +71,23 @@ function crearTablero(dimensiones, automatico) {
         numero = obtenerRandom(dimensiones, numeros)
       }
       else {
-        numero = prompt("Ingresa un número")
+        valido = false;
+        while (!valido) {
+          numero = parseInt(prompt("Ingrese un número entre 0 y " + ((dimensiones * dimensiones) -1)));
+          if (numero >= 0 && numero <= (dimensiones * dimensiones) -1 && !numeros.includes(numero)) {
+            valido = true;
+          }
+          else {
+            alert("El número ingresado no es válido. numeros ingresados: " + numeros);
+          }
+        }
       }
-
       numeros.push(numero);
-
+      vector.push(numero)
       let letra = `<p class="letraTablero">` + numero + `</p>`
       tableroHTML += `<div id="cuadro_` + i + `_` + j + `" class="cuadroTablero">` + letra + `</div>`;
     }
+    matrizBacktraking.push(vector)  
     tableroHTML += "</div>";
   }
 
@@ -105,5 +118,13 @@ function obtenerRandom(dimensiones, listaNumeros) {
   }
   else {
     return numero;
+  }
+}
+function run() {
+  if (backtrakingEnUso) {
+    //backtraking()
+  }
+  else {
+    //aEstrella()
   }
 }
