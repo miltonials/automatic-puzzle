@@ -1,8 +1,11 @@
 let backtrakingEnUso = false
 let matrizBacktraking = []
 let dimensionesMatriz = 0
-let matrizOptenidas = []
 
+let matricesOperadas = []
+let solucionEsperada = []
+let matrizOperando = []
+let contador = 0
 /**
  * Función que permite cambiar el color del botón del algoritmo seleccionado
  *
@@ -34,9 +37,8 @@ function cambiarDimensionesTablero() {
   let selected = Array.from(radios).find(radio => radio.checked);
   if (selected == null) {
     alert("Debe seleccionar automatico o manual");
-    return; 
+    return;
   }
-  console.log(selected.value);
 
   if (selected) {
     if (selected.value == "manual") {
@@ -55,19 +57,20 @@ function cambiarDimensionesTablero() {
   }
 }
 
-/**
+/** 
  * Función que permite crear el tablero mxm. Donde m = dimensiones y pertence a {2, 3, 4, 5}
  * @param {int} dimensiones 
  */
 function crearTablero(dimensiones, automatico) {
   matrizBacktraking = [];
-  console.log(matrizBacktraking);
   dimensionesMatriz = dimensiones
   let tablero_container = document.getElementById("puzzle");
   let tableroHTML = "";
   let numeros = [];
 
-  document.getElementById("board-container").remove()
+  if (document.getElementById("board-container") != null) {
+    document.getElementById("board-container").remove()
+  }
 
   for (let i = 0; i < dimensiones; i++) {
     vector = []
@@ -80,8 +83,8 @@ function crearTablero(dimensiones, automatico) {
       else {
         valido = false;
         while (!valido) {
-          numero = parseInt(prompt("Ingrese un número entre 0 y " + ((dimensiones * dimensiones) -1)));
-          if (numero >= 0 && numero <= (dimensiones * dimensiones) -1 && !numeros.includes(numero)) {
+          numero = parseInt(prompt("Ingrese un número entre 0 y " + ((dimensiones * dimensiones) - 1)));
+          if (numero >= 0 && numero <= (dimensiones * dimensiones) - 1 && !numeros.includes(numero)) {
             valido = true;
           }
           if (numero == -1) {
@@ -103,7 +106,7 @@ function crearTablero(dimensiones, automatico) {
         tableroHTML += `<div id="cuadro_` + i + `_` + j + `" class="cuadroTablero">` + letra + `</div>`;
       }
     }
-    matrizBacktraking.push(vector)  
+    matrizBacktraking.push(vector)
     tableroHTML += "</div>";
   }
 
@@ -120,6 +123,7 @@ function crearTablero(dimensiones, automatico) {
   tablero_container.appendChild(modalContentEl);
 
 }
+
 function mostrarMatriz(matriz) {
   let tablero_container = document.getElementById("puzzle");
   let tableroHTML = "";
@@ -148,7 +152,8 @@ function mostrarMatriz(matriz) {
   )
   document.body.appendChild(modalContentEl);
   tablero_container.appendChild(modalContentEl);
-} 
+}
+
 /**
  * Función que permite obtener un número random entre 1 y maximo, que no se encuentre en el arreglo numeros
  *
@@ -158,7 +163,7 @@ function mostrarMatriz(matriz) {
  */
 function obtenerRandom(dimensiones, listaNumeros) {
   let numero = Math.floor(Math.random() * (dimensiones * dimensiones));
-  if (listaNumeros.includes(numero)){ //|| listaNumeros.includes("")) {
+  if (listaNumeros.includes(numero)) { //|| listaNumeros.includes("")) {
     return obtenerRandom(dimensiones, listaNumeros);
   }
   else {
@@ -168,12 +173,13 @@ function obtenerRandom(dimensiones, listaNumeros) {
     return numero;
   }
 }
+
 /**
  *Funcion que ejecuta el algoritmo seleccionado
- *
  */
 function run() {
-  console.log(matrizBacktraking);
+  contador = 0;
+  matricesOperadas = JSON.parse(JSON.stringify([]))
   if (matrizBacktraking == null) {
     alert("Debe seleccionar un algoritmo y crear el tablero");
     return
@@ -183,8 +189,10 @@ function run() {
     return
   }
   else {
+    solucionEsperada = crearSolucionEsperada(dimensionesMatriz);
     if (backtrakingEnUso) {
-      backtraking()
+      let estadoAct = JSON.parse(JSON.stringify(matrizBacktraking))
+      backtracking(estadoAct)
     }
     else {
       //aEstrella()
@@ -192,61 +200,76 @@ function run() {
   }
 }
 
+
+//Funcion sleep tomada de https://www.delftstack.com/howto/javascript/javascript-wait-for-x-seconds/
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 /**
- * Funcion que permite ejecutar el algoritmo backtraking
- *
+ * Funcion que permite verificar si la matriz ya fue operada.
+ * @param {array} matriz 
+ * @returns {boolean} | true si la matriz ya fue operada.
  */
-function backtraking() {
-  console.log(dimensionesMatriz);
-  let listaPasos = [];
-  let solucionEsperado = crearSolucionEsperada(dimensionesMatriz);
-  console.log(solucionEsperado);
-  let solucion = backtrakingRecursivo(matrizBacktraking, listaPasos, solucionEsperado);
-  //console.log(solucion);) {
-  console.log("Solucion encontrada");
-    //console.log(listaPasos);
-    //mostrarPasos(listaPasos);
-}
-
-function backtrakingRecursivo(matriz, listaPasos, solucionEsperado) {
-  console.log(matriz);
-  //console.log(solucionEsperado);
-  if (validarSolucion(matriz, solucionEsperado)) {
-    console.log("Solucion encontrada");
-    return listaPasos;
-  }
-  else {
-    let posicionVacia = obtenerPosicionVacia(matriz);
-    let posicionesPosibles = obtenerPosicionesPosibles(posicionVacia, matriz);
-    console.log("Posibles posiciones"+posicionesPosibles);
-    for (let i = 0; i < posicionesPosibles.length; i++) {
-      let matrizAux = matriz;
-      matrizAux[posicionVacia[0]][posicionVacia[1]] = matriz[posicionesPosibles[i][0]][posicionesPosibles[i][1]];
-      matrizAux[posicionesPosibles[i][0]][posicionesPosibles[i][1]] = 0;
-      listaPasos.push(matrizAux);
-      console.log("paso: " + i + " , " + matrizAux);
-      setTimeout(mostrarMatriz(matrizAux),500 );
-      if (listaPasos.includes(matrizAux)) {
-        console.log("Matriz ya obtenida");
-      }
-      else{
-        backtrakingRecursivo(matrizAux, listaPasos, solucionEsperado);
-      }
+function matrizFueOperada(matriz) {
+  for (let i = 0; i < matricesOperadas.length; i++) {
+    if (matricesOperadas[i].toString() === matriz.toString()) {
+      return true
     }
   }
+  return false
 }
 
-function validarSolucion(matriz, solucionEsperado) {
-  for (let i = 0; i < matriz.length; i++) {
-    for (let j = 0; j < matriz.length; j++) {
-      if (matriz[i][j] != solucionEsperado[i][j]) {
-        return false;
-      }
-    }
+/**
+ * Función que genera una matriz con maximo 4 submatrices, las cuales son los posibles estados
+ * de acuerdo al movimiento que se haga en la matriz.
+ *
+ * @param {array} estado | Estado actual de la matriz
+ * @return {array} | Matriz con los posibles estados
+ */
+function generarMatricesResultados(estado) {
+  let posCero = obtenerPosicionVacia(estado)
+  let posiblesPasos = [];
+  let fila = posCero[0]
+  let columna = posCero[1]
+
+  if (fila - 1 >= 0) { //arriba
+    posiblesPasos.push(swapPosicionCero(estado, fila, columna, fila - 1, columna))
   }
-  return true;
+  if (fila + 1 < estado.length) { //abajo
+    posiblesPasos.push(swapPosicionCero(estado, fila, columna, fila + 1, columna))
+  }
+  if (columna - 1 >= 0) { //izquierda
+    posiblesPasos.push(swapPosicionCero(estado, fila, columna, fila, columna - 1))
+  }
+  if (columna + 1 < estado.length) { //derecha
+    posiblesPasos.push(swapPosicionCero(estado, fila, columna, fila, columna + 1))
+  }
+  return posiblesPasos;
 }
 
+/**
+ * Función permite mover la posición de un elemento de la matriz a una nueva. 
+ * @param {array} matriz  | Matriz a la que se le va a mover un elemento
+ * @param {int} filaCero  | Fila en la que se encuentra el elemento a mover
+ * @param {int} columnaCero | Columna en la que se encuentra el elemento a mover
+ * @param {int} nuevaFila | Fila a la que se va a mover el elemento
+ * @param {int} nuevaColumna | Columna a la que se va a mover el elemento
+ * @return {array} | Matriz con el elemento movido
+ */
+function swapPosicionCero(matriz, filaCero, columnaCero, nuevaFila, nuevaColumna) {
+  let matrizResultado = JSON.parse(JSON.stringify(matriz))
+  let numero = matriz[nuevaFila][nuevaColumna]
+  matrizResultado[nuevaFila][nuevaColumna] = 0
+  matrizResultado[filaCero][columnaCero] = numero
+  return matrizResultado
+}
+
+/**
+ * Función que permite obtener la posición del elemento vacío (0) en la matriz
+ * @param {array} matriz 
+ * @returns {array} | Posicion del elemento vacio
+ */
 function obtenerPosicionVacia(matriz) {
   for (let i = 0; i < matriz.length; i++) {
     for (let j = 0; j < matriz.length; j++) {
@@ -257,23 +280,11 @@ function obtenerPosicionVacia(matriz) {
   }
 }
 
-function obtenerPosicionesPosibles(posicionVacia, matriz) {
-  let posicionesPosibles = [];
-  if (posicionVacia[0] - 1 >= 0) { //arriba
-    posicionesPosibles.push([posicionVacia[0] - 1, posicionVacia[1]]);
-  }
-  else if (posicionVacia[0] + 1 < matriz.length) { //abajo
-    posicionesPosibles.push([posicionVacia[0] + 1, posicionVacia[1]]);
-  }
-  else if (posicionVacia[1] - 1 >= 0) { //izquierda
-    posicionesPosibles.push([posicionVacia[0], posicionVacia[1] - 1]);
-  }
-  else if (posicionVacia[1] + 1 < matriz.length) { //derecha
-    posicionesPosibles.push([posicionVacia[0], posicionVacia[1] + 1]);
-  }
-  return posicionesPosibles;
-}
-
+/**
+ * Función que genera una matriz n x n con los números del 1 al n^2 - 1 de forma ordenada.
+ * @param {int} dimensiones 
+ * @return {array} | Matriz con los números ordenados
+ */
 function crearSolucionEsperada(dimensiones) {
   let matriz = [];
   for (let i = 0; i < dimensiones; i++) {
@@ -282,8 +293,7 @@ function crearSolucionEsperada(dimensiones) {
       vector.push(i * dimensiones + j + 1);
     }
     matriz.push(vector);
-  } 
+  }
   matriz[dimensiones - 1][dimensiones - 1] = 0;
   return matriz;
 }
-
