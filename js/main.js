@@ -7,6 +7,7 @@ let solucionEsperada = []
 let matrizOperando = []
 let contador = 0
 let limite = 0
+let numeroDePaso = 0
 /**
  * Función que permite cambiar el color del botón del algoritmo seleccionado
  *
@@ -181,6 +182,16 @@ function obtenerRandom(dimensiones, listaNumeros) {
   }
 }
 
+function pasos(){
+  if(stepByStep(numeroDePaso)){
+    numeroDePaso++;
+    return;
+  }else{
+    alert("No hay pasos para mostrar")
+    numeroDePaso=0;
+    return;
+  }
+}
 
 /**
  *Funcion que ejecuta el algoritmo seleccionado
@@ -328,7 +339,7 @@ function obtenerMovimiento(matriz1, matriz2) {
   else if (posCero1[1] > posCero2[1]) {
     movimiento = "Mover 0 hacia la izquierda"
   }
-  else if (posCero1[1] < posCero2[1]) {
+  else/* if (posCero1[1] < posCero2[1])*/ {
     movimiento = "Mover 0 hacia la derecha"
   }
   console.log(posCero1 + " ||| " + posCero2)
