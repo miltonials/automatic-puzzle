@@ -9,7 +9,7 @@ async function backtracking(estado, limite) {
   }
 
   mostrarMatriz(estado)
-  await sleep(75)
+  await sleep(10)
 
   if (contador <= limite) {
     if (estado.toString() === solucionEsperada.toString()) {
