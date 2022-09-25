@@ -84,15 +84,21 @@ function crearTablero(dimensiones, automatico) {
       else {
         valido = false;
         while (!valido) {
-          numero = parseInt(prompt("Ingrese un número entre 0 y " + ((dimensiones * dimensiones) - 1)));
+          option = prompt("Ingrese un número entre 0 y " + ((dimensiones * dimensiones) - 1));
+          numero = parseInt(option);
+          // console.log( 0 <= numero && numero <= ((dimensiones * dimensiones) - 1))
+          // console.log()
           if (numero >= 0 && numero <= (dimensiones * dimensiones) - 1 && !numeros.includes(numero)) {
             valido = true;
+            break
           }
           if (numero == -1) {
             return
+          }if (option == null) {
+            return
           }
           else {
-            alert("El número ingresado no es válido. numeros ingresados: " + numeros);
+            option = alert("El número ingresado no es válido. numeros ingresados: " + numeros);
           }
         }
       }
