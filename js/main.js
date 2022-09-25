@@ -196,7 +196,7 @@ async function run(limite) {
     alert("Debe crear el tablero");
     return
   }
-  else {
+  else if (isSolvable(matrizBacktraking)) {
     solucionEsperada = crearSolucionEsperada(dimensionesMatriz);
     let estadoAct = JSON.parse(JSON.stringify(matrizBacktraking))
     console.log(estadoAct)
@@ -212,6 +212,8 @@ async function run(limite) {
     else {
       aEstrella(estadoAct, limite)
     }
+  }else{
+    alert("El tablero no tiene solución")
   }
 }
 
@@ -347,3 +349,22 @@ function insertarLog(log) {
   document.body.appendChild(modalContentEl);
   logs.appendChild(modalContentEl);
 }
+
+// funccion que cuenta el numero de inversiones en la matriz
+function getInvCount(matriz) {
+	let inv_count = 0 ;
+	for(let i=0;i<2;i++){
+		for(let j=i+1;j<dimensionesMatriz;j++){
+			if (matriz[j][i] > 0 && matriz[j][i] > matriz[i][j])
+				inv_count += 1;
+		}
+	}
+	return inv_count;
+}
+
+// retorna si es resoluble el puzzle
+function isSolvable(puzzle){
+	let invCount = getInvCount(puzzle);
+	return (invCount % 2 == 0);
+}
+
