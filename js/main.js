@@ -6,6 +6,7 @@ let matricesOperadas = []
 let solucionEsperada = []
 let matrizOperando = []
 let contador = 0
+let limite = 0
 /**
  * Función que permite cambiar el color del botón del algoritmo seleccionado
  *
@@ -174,12 +175,13 @@ function obtenerRandom(dimensiones, listaNumeros) {
   }
 }
 
+
 /**
  *Funcion que ejecuta el algoritmo seleccionado
  */
-function run() {
+async function run(limite) {
   contador = 0;
-  matricesOperadas = JSON.parse(JSON.stringify([]))
+  // matricesOperadas = JSON.parse(JSON.stringify([]))
   if (matrizBacktraking == null) {
     alert("Debe seleccionar un algoritmo y crear el tablero");
     return
@@ -192,7 +194,13 @@ function run() {
     solucionEsperada = crearSolucionEsperada(dimensionesMatriz);
     if (backtrakingEnUso) {
       let estadoAct = JSON.parse(JSON.stringify(matrizBacktraking))
-      backtracking(estadoAct)
+      let respuesta = (await backtracking(estadoAct, limite));
+      if (!respuesta && contador > 5) {
+        alert("Se ha superado el límite de iteraciones");
+      }
+      else if (!respuesta && dimensionesMatriz == 2) {
+        alert("No se ha encontrado una solución");
+      }
     }
     else {
       //aEstrella()
