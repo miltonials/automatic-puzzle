@@ -192,8 +192,8 @@ async function run(limite) {
   }
   else {
     solucionEsperada = crearSolucionEsperada(dimensionesMatriz);
+    let estadoAct = JSON.parse(JSON.stringify(matrizBacktraking))
     if (backtrakingEnUso) {
-      let estadoAct = JSON.parse(JSON.stringify(matrizBacktraking))
       let respuesta = (await backtracking(estadoAct, limite));
       if (!respuesta && contador > 5) {
         alert("Se ha superado el límite de iteraciones");
@@ -203,7 +203,7 @@ async function run(limite) {
       }
     }
     else {
-      //aEstrella()
+      aEstrella(estadoAct)
     }
   }
 }
