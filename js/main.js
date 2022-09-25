@@ -199,6 +199,7 @@ async function run(limite) {
   else {
     solucionEsperada = crearSolucionEsperada(dimensionesMatriz);
     let estadoAct = JSON.parse(JSON.stringify(matrizBacktraking))
+    console.log(estadoAct)
     if (backtrakingEnUso) {
       let respuesta = (await backtracking(estadoAct, limite));
       if (!respuesta && contador > 5) {

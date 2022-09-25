@@ -1,17 +1,16 @@
-let listaAbierta = []
 let listaCerrada = []
-//solucionEsperada
-//matrizbacktracking
+
 async function aEstrella(estado) {
+  let listaAbierta = []
   listaAbierta.push(estado)
   while (listaAbierta.length > 0) {
-    let nodoActual = obtenerMatrizMayorPeso()//listaAbierta.shift()
-    estadoAct = JSON.parse(JSON.stringify(nodoActual))
+    let nodoActual = obtenerMatrizMenorPesoManhattan(listaAbierta)
     listaCerrada.push(nodoActual)
-    
+    matrizBacktraking = JSON.parse(JSON.stringify(nodoActual))
+
     mostrarMatriz(nodoActual)
-    await sleep(5)
-    
+    await sleep(1)
+
     if (nodoActual.toString() === solucionEsperada.toString()) {
       alert("Se ha encontrado la solución");
       return nodoActual
@@ -24,6 +23,8 @@ async function aEstrella(estado) {
       }
     }
   }
+  listaCerrada = []
+  alert("No se ha encontrado la solución");
 }
 
 function matrizFueOperadaa(matriz) {
@@ -35,37 +36,49 @@ function matrizFueOperadaa(matriz) {
   return false
 }
 
-function obtenerMatrizMayorPeso() {
+function obtenerMatrizMenorPesoManhattan(lista) {
   let pesoXindice = []
-  listaAbierta.forEach(matriz => {
-    pesoXindice.push(cantidadDeIguales(matriz))
-  });
-  let max = Math.max(...pesoXindice);
-  let indice = pesoXindice.indexOf(max);
-  let matriz = listaAbierta[indice]
-  listaAbierta.splice(indice, 1)
-  quitarPesosMenores(pesoXindice, max)
+  lista.forEach(matriz => {
+    pesoXindice.push(manhattan(matriz))
+  })
+  let min = Math.min(...pesoXindice);
+  let indice = pesoXindice.indexOf(min);
+  let matriz = lista[indice]
+  // console.log(matriz + " => " + indice + " => " + min)
+  lista.splice(indice, 1)
+  quitarPesosMayores(pesoXindice, min)
+  // console.log(min)
   return matriz
 }
 
-function quitarPesosMenores(pesoXindice, max) {
+
+function quitarPesosMayores(pesoXindice, min) {
   for (let i = 0; i < pesoXindice.length; i++) {
-    if (pesoXindice[i] < max) {
-      listaCerrada.push(listaAbierta.splice(i, 1))
+    if (pesoXindice[i] > min) {
+      listaAbierta.splice(i, 1)
+      // listaCerrada.push(listaAbierta.splice(i, 1))
     }
   }
 }
-/*
-*/
 
-function cantidadDeIguales(matriz){
+function manhattan(matriz) {
   let contador = 0;
-  for(let i = 0; i < matriz.length; i++){
-      for(let j = 0; j < matriz.length; j++){
-          if(matriz[i][j] == solucionEsperada[i][j]){
-              contador++;
-          }
-      }
+  for (let i = 0; i < matriz.length; i++) {
+    for (let j = 0; j < matriz.length; j++) {
+      let valor = matriz[i][j]
+      let posicion = getPosicion(valor)
+      contador += Math.abs(posicion[0] - i) + Math.abs(posicion[1] - j)
+    }
   }
   return contador;
+}
+
+function getPosicion(valor) {
+  for (let i = 0; i < solucionEsperada.length; i++) {
+    for (let j = 0; j < solucionEsperada.length; j++) {
+      if (solucionEsperada[i][j] === valor) {
+        return [i, j]
+      }
+    }
+  }
 }
