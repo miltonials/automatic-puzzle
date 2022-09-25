@@ -27,6 +27,10 @@ async function aEstrella(estado, limite) {
     
     if (nodoActual.toString() === solucionEsperada.toString()) {
       alert("Se ha encontrado la solución");
+      /*console.log("*******************************")
+      console.log(listaCerrada)
+      console.log("*******************************")
+      */
       return nodoActual
     }
     
@@ -42,6 +46,18 @@ async function aEstrella(estado, limite) {
   listaCerrada = []
   if(listaAbierta.length == 0){
     alert("No se ha encontrado la solución");
+  }
+}
+
+//funcion para el boton step in
+//recibe el id para buscar la matriz (paso) en la lista
+//retorna true si funciona, false si no funciona
+function stepByStep(id){
+  if(listaCerrada.length != 0 && id<=(listaCerrada.length)-1){  
+    mostrarMatriz(listaCerrada[id]);
+    return true;
+  }else{
+    return false;
   }
 }
 
