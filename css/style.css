@@ -11,7 +11,7 @@
   margin: 0;
   font-family: 'Open Sans', sans-serif;
   background: -webkit-gradient(linear, left top, left bottom, from(var(--main-bg-color)), to(var(--borders-and-shadows))) fixed;
-  text-decoration: none;
+  /* text-decoration: none; */
 }
 
 body {
@@ -152,4 +152,9 @@ https://codepen.io/giana/pen/BZaGyP
   font-size: 38px;
   background-color: transparent;
   font-weight: 650;
+}
+
+#logs-history {
+  height: 198px;
+  overflow: scroll;
 }

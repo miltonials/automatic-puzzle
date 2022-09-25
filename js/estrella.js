@@ -1,30 +1,48 @@
+let listaAbierta = []
 let listaCerrada = []
 
-async function aEstrella(estado) {
-  let listaAbierta = []
+async function aEstrella(estado, limite) {
+  try {
+    let childs = document.getElementById("logs-history").childNodes
+    for (let i = 0; i < childs.length; i++) {
+      childs[i].remove()
+    }
+
+  } catch (error) {
+    console.log("No se ha encontrado el elemento logs-container")
+  }
+
   listaAbierta.push(estado)
-  while (listaAbierta.length > 0) {
-    let nodoActual = obtenerMatrizMenorPesoManhattan(listaAbierta)
+  console.log("contador: " + limite)
+  matrizPasoAnterior = JSON.parse(JSON.stringify(estado))
+
+  while (listaAbierta.length > 0 && limite != 3) {
+    let nodoActual = await obtenerMatrizMenorPesoManhattan(listaAbierta)
     listaCerrada.push(nodoActual)
     matrizBacktraking = JSON.parse(JSON.stringify(nodoActual))
-
+    
+    insertarLog(obtenerMovimiento(matrizPasoAnterior, nodoActual))
     mostrarMatriz(nodoActual)
-    await sleep(1)
-
+    await sleep(100)
+    
     if (nodoActual.toString() === solucionEsperada.toString()) {
       alert("Se ha encontrado la solución");
       return nodoActual
     }
-
-    let posibles_movimientos = generarMatricesResultados(nodoActual)
+    
+    let posibles_movimientos = await generarMatricesResultados(nodoActual)
     for (let i = 0; i < posibles_movimientos.length; i++) {
       if (!matrizFueOperadaa(posibles_movimientos[i])) {
         listaAbierta.push(posibles_movimientos[i])
       }
     }
+    matrizPasoAnterior = JSON.parse(JSON.stringify(nodoActual))
+    limite++
   }
   listaCerrada = []
-  alert("No se ha encontrado la solución");
+  if(listaAbierta.length == 0){
+    alert("No se ha encontrado la solución");
+  }
 }
 
 function matrizFueOperadaa(matriz) {
@@ -37,6 +55,9 @@ function matrizFueOperadaa(matriz) {
 }
 
 function obtenerMatrizMenorPesoManhattan(lista) {
+  if (lista.length == 1) {
+    return lista[0]
+  }
   let pesoXindice = []
   lista.forEach(matriz => {
     pesoXindice.push(manhattan(matriz))

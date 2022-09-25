@@ -1,7 +1,7 @@
 let backtrakingEnUso = false
 let matrizBacktraking = []
 let dimensionesMatriz = 0
-
+let matrizPasoAnterior = []
 let matricesOperadas = []
 let solucionEsperada = []
 let matrizOperando = []
@@ -94,7 +94,7 @@ function crearTablero(dimensiones, automatico) {
           }
           if (numero == -1) {
             return
-          }if (option == null) {
+          } if (option == null) {
             return
           }
           else {
@@ -210,7 +210,7 @@ async function run(limite) {
       }
     }
     else {
-      aEstrella(estadoAct)
+      aEstrella(estadoAct, limite)
     }
   }
 }
@@ -311,4 +311,39 @@ function crearSolucionEsperada(dimensiones) {
   }
   matriz[dimensiones - 1][dimensiones - 1] = 0;
   return matriz;
+}
+
+function obtenerMovimiento(matriz1, matriz2) {
+  let movimiento = "";
+  let posCero1 = obtenerPosicionVacia(matriz1)
+  let posCero2 = obtenerPosicionVacia(matriz2)
+  if (posCero1[0] > posCero2[0]) {
+    movimiento = "Mover 0 hacia arriba"
+  }
+  else if (posCero1[0] < posCero2[0]) {
+    movimiento = "Mover 0 hacia abajo"
+  }
+  else if (posCero1[1] > posCero2[1]) {
+    movimiento = "Mover 0 hacia la izquierda"
+  }
+  else if (posCero1[1] < posCero2[1]) {
+    movimiento = "Mover 0 hacia la derecha"
+  }
+  console.log(posCero1 + " ||| " + posCero2)
+  console.log("movi>>> " + movimiento)
+  return movimiento
+}
+
+function insertarLog(log) {
+  let logs = document.getElementById("logs-history")
+
+  const li = createCustomElement(
+    "li", {}, [log]
+  )
+
+  const modalContentEl = createCustomElement(
+    "ol", {}, [li]
+  )
+  document.body.appendChild(modalContentEl);
+  logs.appendChild(modalContentEl);
 }
