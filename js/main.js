@@ -315,7 +315,9 @@ function obtenerMovimiento(matriz1, matriz2) {
   let movimiento = "";
   let posCero1 = obtenerPosicionVacia(matriz1)
   let posCero2 = obtenerPosicionVacia(matriz2)
-
+  if (matriz1.length == 0 || matriz2.length == 0){
+    return movimiento;
+  }
   if (posCero1[0] > posCero2[0]) {
     movimiento = "Mover 0 hacia arriba"
   }

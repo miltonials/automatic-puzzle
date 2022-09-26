@@ -14,13 +14,16 @@ async function backtracking(estado, limite) {
   if (contador <= limite) {
     if (estado.toString() === solucionEsperada.toString()) {
       valoresIniciales(estado)
+      matricesOperadas.push(estado)
+      await insertarLog(obtenerMovimiento(matrizPasoAnterior, estado))
       alert("Se ha encontrado la solución");
       return true
     }
     else {
       let posibles_movimientos = generarMatricesResultados(estado)
+      await insertarLog(obtenerMovimiento(matrizPasoAnterior, estado))
       matricesOperadas.push(estado)
-
+      matrizPasoAnterior = estado
       for (let i = 0; i < posibles_movimientos.length; i++) {
         matrizBacktraking = JSON.parse(JSON.stringify(posibles_movimientos[i]))
         matricesOperando = JSON.parse(JSON.stringify(posibles_movimientos[i]))
