@@ -1,5 +1,6 @@
 const config_btn = document.getElementById("conf-btn");
 
+// Evento que permite mostrar el modal de configuración
 config_btn.addEventListener("click", () => {
   printModal(`
   <form>
@@ -23,5 +24,3 @@ config_btn.addEventListener("click", () => {
   </div>
   `);
 }); 
-
-

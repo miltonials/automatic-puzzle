@@ -1,10 +1,23 @@
-// Añadir un objeto de atributos a un elemento
+/**
+ * Función que permite agregar atributos a un elemento
+ *
+ * @param {document.element} element | Elemento al que se le agregaran los atributos
+ * @param {object} attrObj | Objeto con los atributos a agregar
+ */
 const addAttributes = (element, attrObj) => {
   for (let attr in attrObj) {
     if (attrObj.hasOwnProperty(attr)) element.setAttribute(attr, attrObj[attr]);
   }
 };
-// Crear elementos con atributos e hijo
+
+/**
+ * Función que permite crear un elemento con sus atributos y contenido (hijos)
+ *
+ * @param {string} element | Elemento a crear
+ * @param {object} attributes | Atributos del elemento
+ * @param {Array} children | Contenido del elemento
+ * @return {document.element} | Elemento creado 
+ */
 const createCustomElement = (element, attributes, children) => {
   let customElement = document.createElement(element);
   if (children !== undefined)
@@ -20,7 +33,11 @@ const createCustomElement = (element, attributes, children) => {
   return customElement;
 };
 
-//   imprimir modal
+/**
+ * Función que permite crear un modal. Crea 2 elementos contenedores para el contenido.
+ *
+ * @param {string} content | Contenido del modal
+ */
 const printModal = (content) => {
   // crear contenedor interno
   const modalContentEl = createCustomElement(
