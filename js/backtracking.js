@@ -1,7 +1,13 @@
 /**
- * Funcion que permite ejecutar el algoritmo backtraking
+ * Función principal que ejecuta el algoritmo de backtracking
+ *
+ * @param {int}   limite   | Límite de iteraciones para que se detenga la busqueda de una solución
+ * @param {array} estado   | Matriz que representa el estado actual del tablero
+ * @param {array} matrizPasoAnterior   | Matriz que representa el estado anterior del tablero
+ * @param {array} posibles_movimientos | array de matrices que contiene todos los movimientos posibles
+ * 
  */
-async function backtracking(estado, limite) {
+ async function backtracking(estado, limite) {
   contador++;
   console.log("contador: " + contador)
   if (contador > 7000) {
