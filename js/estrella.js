@@ -2,12 +2,16 @@ let listaAbierta = []
 let listaCerrada = []
 
 async function aEstrella(estado, limite) {
+  if (limite > 3) {
+    listaAbierta = []
+    listaCerrada = []
+  }
+
   try {
     let childs = document.getElementById("logs-history").childNodes
     for (let i = 0; i < childs.length; i++) {
       childs[i].remove()
     }
-
   } catch (error) {
     console.log("No se ha encontrado el elemento logs-container")
   }
@@ -16,21 +20,19 @@ async function aEstrella(estado, limite) {
   console.log("contador: " + limite)
   matrizPasoAnterior = JSON.parse(JSON.stringify(estado))
 
-  while (listaAbierta.length > 0 && limite != 3) {
+  while (listaAbierta.length > 0 && contador <= limite) {
+    contador++
+
     let nodoActual = await obtenerMatrizMenorPesoManhattan(listaAbierta)
     listaCerrada.push(nodoActual)
     matrizBacktraking = JSON.parse(JSON.stringify(nodoActual))
     
-    insertarLog(obtenerMovimiento(matrizPasoAnterior, nodoActual))
-    mostrarMatriz(nodoActual)
+    await insertarLog(obtenerMovimiento(matrizPasoAnterior, nodoActual))
+    await mostrarMatriz(nodoActual)
     await sleep(100)
     
     if (nodoActual.toString() === solucionEsperada.toString()) {
       alert("Se ha encontrado la solución");
-      /*console.log("*******************************")
-      console.log(listaCerrada)
-      console.log("*******************************")
-      */
       return nodoActual
     }
     
@@ -41,23 +43,14 @@ async function aEstrella(estado, limite) {
       }
     }
     matrizPasoAnterior = JSON.parse(JSON.stringify(nodoActual))
-    limite++
   }
-  listaCerrada = []
-  if(listaAbierta.length == 0){
+  if(listaAbierta.length == 0 && limite > 3){
+    listaCerrada = []
+    // // listaCerrada = []
     alert("No se ha encontrado la solución");
   }
-}
-
-//funcion para el boton step in
-//recibe el id para buscar la matriz (paso) en la lista
-//retorna true si funciona, false si no funciona
-function stepByStep(id){
-  if(listaCerrada.length != 0 && id<=(listaCerrada.length)-1){  
-    mostrarMatriz(listaCerrada[id]);
-    return true;
-  }else{
-    return false;
+  if(listaAbierta.length == 0){
+    listaCerrada = []
   }
 }
 
@@ -71,9 +64,6 @@ function matrizFueOperadaa(matriz) {
 }
 
 function obtenerMatrizMenorPesoManhattan(lista) {
-  if (lista.length == 1) {
-    return lista[0]
-  }
   let pesoXindice = []
   lista.forEach(matriz => {
     pesoXindice.push(manhattan(matriz))
@@ -81,7 +71,6 @@ function obtenerMatrizMenorPesoManhattan(lista) {
   let min = Math.min(...pesoXindice);
   let indice = pesoXindice.indexOf(min);
   let matriz = lista[indice]
-  // console.log(matriz + " => " + indice + " => " + min)
   lista.splice(indice, 1)
   quitarPesosMayores(pesoXindice, min)
   // console.log(min)
@@ -92,8 +81,8 @@ function obtenerMatrizMenorPesoManhattan(lista) {
 function quitarPesosMayores(pesoXindice, min) {
   for (let i = 0; i < pesoXindice.length; i++) {
     if (pesoXindice[i] > min) {
-      listaAbierta.splice(i, 1)
-      // listaCerrada.push(listaAbierta.splice(i, 1))
+      // listaAbierta.splice(i, 1)
+      listaCerrada.push(listaAbierta.splice(i, 1))
     }
   }
 }

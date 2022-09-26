@@ -87,8 +87,6 @@ function crearTablero(dimensiones, automatico) {
         while (!valido) {
           option = prompt("Ingrese un número entre 0 y " + ((dimensiones * dimensiones) - 1));
           numero = parseInt(option);
-          // console.log( 0 <= numero && numero <= ((dimensiones * dimensiones) - 1))
-          // console.log()
           if (numero >= 0 && numero <= (dimensiones * dimensiones) - 1 && !numeros.includes(numero)) {
             valido = true;
             break
@@ -175,21 +173,7 @@ function obtenerRandom(dimensiones, listaNumeros) {
     return obtenerRandom(dimensiones, listaNumeros);
   }
   else {
-    // if (numero == 0) {
-    //   return "";
-    // }
     return numero;
-  }
-}
-
-function pasos(){
-  if(stepByStep(numeroDePaso)){
-    numeroDePaso++;
-    return;
-  }else{
-    alert("No hay pasos para mostrar")
-    numeroDePaso=0;
-    return;
   }
 }
 
@@ -198,7 +182,7 @@ function pasos(){
  */
 async function run(limite) {
   contador = 0;
-  // matricesOperadas = JSON.parse(JSON.stringify([]))
+  document.getElementById("debug").style.display = "none";
   if (matrizBacktraking == null) {
     alert("Debe seleccionar un algoritmo y crear el tablero");
     return
@@ -207,12 +191,12 @@ async function run(limite) {
     alert("Debe crear el tablero");
     return
   }
-  else if (isSolvable(matrizBacktraking)) {
+  else {
     solucionEsperada = crearSolucionEsperada(dimensionesMatriz);
-    let estadoAct = JSON.parse(JSON.stringify(matrizBacktraking))
-    console.log(estadoAct)
+    // let estadoAct = JSON.parse(JSON.stringify(matrizBacktraking))
+    console.log(matrizBacktraking)
     if (backtrakingEnUso) {
-      let respuesta = (await backtracking(estadoAct, limite));
+      let respuesta = (await backtracking(matrizBacktraking, limite));
       if (!respuesta && contador > 5) {
         alert("Se ha superado el límite de iteraciones");
       }
@@ -221,10 +205,9 @@ async function run(limite) {
       }
     }
     else {
-      aEstrella(estadoAct, limite)
+      await aEstrella(matrizBacktraking, limite)
     }
-  }else{
-    alert("El tablero no tiene solución")
+    document.getElementById("debug").style.display = "flex";
   }
 }
 
@@ -330,6 +313,7 @@ function obtenerMovimiento(matriz1, matriz2) {
   let movimiento = "";
   let posCero1 = obtenerPosicionVacia(matriz1)
   let posCero2 = obtenerPosicionVacia(matriz2)
+
   if (posCero1[0] > posCero2[0]) {
     movimiento = "Mover 0 hacia arriba"
   }
@@ -339,11 +323,9 @@ function obtenerMovimiento(matriz1, matriz2) {
   else if (posCero1[1] > posCero2[1]) {
     movimiento = "Mover 0 hacia la izquierda"
   }
-  else/* if (posCero1[1] < posCero2[1])*/ {
+  else if (posCero1[1] < posCero2[1]) {
     movimiento = "Mover 0 hacia la derecha"
   }
-  console.log(posCero1 + " ||| " + posCero2)
-  console.log("movi>>> " + movimiento)
   return movimiento
 }
 
@@ -363,19 +345,19 @@ function insertarLog(log) {
 
 // funccion que cuenta el numero de inversiones en la matriz
 function getInvCount(matriz) {
-	let inv_count = 0 ;
-	for(let i=0;i<2;i++){
-		for(let j=i+1;j<dimensionesMatriz;j++){
-			if (matriz[j][i] > 0 && matriz[j][i] > matriz[i][j])
-				inv_count += 1;
-		}
-	}
-	return inv_count;
+  let inv_count = 0;
+  for (let i = 0; i < 2; i++) {
+    for (let j = i + 1; j < dimensionesMatriz; j++) {
+      if (matriz[j][i] > 0 && matriz[j][i] > matriz[i][j])
+        inv_count += 1;
+    }
+  }
+  return inv_count;
 }
 
 // retorna si es resoluble el puzzle
-function isSolvable(puzzle){
-	let invCount = getInvCount(puzzle);
-	return (invCount % 2 == 0);
+function isSolvable(puzzle) {
+  let invCount = getInvCount(puzzle);
+  return (invCount % 2 == 0);
 }
 
