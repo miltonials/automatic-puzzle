@@ -31,6 +31,7 @@ function cambioAlgoritmo(backtraking) {
 
 /**
  * Función que permite cambiar las dimensiones del tablero.
+ * 
  */
 function cambiarDimensionesTablero() {
   let dimensiones = document.getElementById("quantity").value;
@@ -130,6 +131,11 @@ function crearTablero(dimensiones, automatico) {
 
 }
 
+/**
+ * Función que permite mostrar el tablero en la pantalla
+ *
+ * @param {array} matriz
+ */
 function mostrarMatriz(matriz) {
   let tablero_container = document.getElementById("puzzle");
   let tableroHTML = "";
@@ -165,7 +171,7 @@ function mostrarMatriz(matriz) {
  *
  * @param {int} dimensiones | número máximo que puede tomar el número random
  * @param {list} listaNumeros | lista de números que no pueden ser tomados por el número random
- * @return {int} 
+ * @return {int} numero | número random entre 1 y maximo, que no se encuentre en el arreglo numeros
  */
 function obtenerRandom(dimensiones, listaNumeros) {
   let numero = Math.floor(Math.random() * (dimensiones * dimensiones));
@@ -179,6 +185,8 @@ function obtenerRandom(dimensiones, listaNumeros) {
 
 /**
  *Funcion que ejecuta el algoritmo seleccionado
+ * 
+ * @param {int} limite | número máximo de iteraciones que puede realizar el algoritmo
  */
 async function run(limite) {
   contador = 0;
@@ -215,6 +223,12 @@ async function run(limite) {
 
 
 //Funcion sleep tomada de https://www.delftstack.com/howto/javascript/javascript-wait-for-x-seconds/
+/**
+ * Función que permite pausar la ejecución del programa por un tiempo determinado
+ *
+ * @param {int} ms | tiempo en milisegundos que se espera
+ * @return {object} 
+ */
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -310,7 +324,13 @@ function crearSolucionEsperada(dimensiones) {
   matriz[dimensiones - 1][dimensiones - 1] = 0;
   return matriz;
 }
-
+/**
+ * Funcion que retorna el moviento que se realizo para llegar a la matriz actual
+ *
+ * @param {array} matriz1 | Matriz inicial
+ * @param {array} matriz2 | Matriz actual
+ * @return {string} | Movimiento que se realizo
+ */
 function obtenerMovimiento(matriz1, matriz2) {
   let movimiento = "";
   let posCero1 = obtenerPosicionVacia(matriz1)
@@ -332,7 +352,11 @@ function obtenerMovimiento(matriz1, matriz2) {
   }
   return movimiento
 }
-
+/**
+ * Función que agrega un log al div de logs
+ *
+ * @param {*} log
+ */
 function insertarLog(log) {
   let logs = document.getElementById("logs-history")
 
@@ -347,7 +371,12 @@ function insertarLog(log) {
   logs.appendChild(modalContentEl);
 }
 
-// funccion que cuenta el numero de inversiones en la matriz
+/**
+ * Funcion que cuenta de diverciones de la matriz actual con respecto a la solucion esperada
+ *
+ * @param {array} matriz
+ * @return {int} | Numero de diverciones 
+ */
 function getInvCount(matriz) {
   let inv_count = 0;
   for (let i = 0; i < 2; i++) {
@@ -359,7 +388,12 @@ function getInvCount(matriz) {
   return inv_count;
 }
 
-// retorna si es resoluble el puzzle
+/**
+ * Funcion que verifica si la matriz es resoluble
+ *
+ * @param {Array} puzzle
+ * @return {true} | Si es resoluble  
+ */
 function isSolvable(puzzle) {
   let invCount = getInvCount(puzzle);
   return (invCount % 2 == 0);
