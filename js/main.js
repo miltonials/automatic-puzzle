@@ -192,6 +192,8 @@ async function run(limite) {
     return
   }
   else {
+    let logs = document.getElementById("logs-history")
+    logs.innerHTML='<div id="logs-container"><p>Sin ejecuciones</p></div>'
     solucionEsperada = crearSolucionEsperada(dimensionesMatriz);
     // let estadoAct = JSON.parse(JSON.stringify(matrizBacktraking))
     console.log(matrizBacktraking)
